@@ -3,16 +3,10 @@ package de.slothsoft.roborumble.gui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferStrategy;
 
 import javax.swing.JComponent;
 
-import de.slothsoft.roborumble.Direction;
 import de.slothsoft.roborumble.Map;
-import de.slothsoft.roborumble.Robot;
-import de.slothsoft.roborumble.RobotInfo;
 
 public class MapPanel extends JComponent {
 
@@ -21,7 +15,6 @@ public class MapPanel extends JComponent {
 
 	private Map map;
 	private MapRenderer renderer = new DefaultMapRenderer();
-	private BufferStrategy bufferStrategy;
 
 	private int width;
 	private int height;
@@ -34,18 +27,6 @@ public class MapPanel extends JComponent {
 	public MapPanel(Map map) {
 		setMap(map);
 		setDoubleBuffered(true);
-
-		addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Direction[] directions = Direction.values();
-				for (Robot robot : map.getRobots()) {
-					RobotInfo info = map.getInfo(robot);
-					info.direction(directions[(info.getDirection().ordinal() + 1) % directions.length]);
-				}
-				repaint();
-			}
-		});
 	}
 
 	@Override

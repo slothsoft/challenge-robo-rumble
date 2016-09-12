@@ -6,10 +6,13 @@ import static de.slothsoft.roborumble.gui.Tile.WIDTH_IN_PIXELS;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
+import de.slothsoft.roborumble.Bullet;
 import de.slothsoft.roborumble.Map;
 import de.slothsoft.roborumble.Robot;
 import de.slothsoft.roborumble.RobotInfo;
+import de.slothsoft.roborumble.Thing;
 
 public interface MapRenderer {
 
@@ -32,9 +35,29 @@ public interface MapRenderer {
 
 		paintTileArray(graphics, map.getTiles());
 
-		for (Robot robot : map.getRobots()) {
-			paintRobot(graphics, robot, map.getInfo(robot));
+		for (Robot robot : new ArrayList<>(map.getRobots())) {
+			paintRobot(graphics, robot, map.findInfo(robot));
 		}
+		for (Thing thing : new ArrayList<>(map.getThings())) {
+			paintThing(graphics, thing);
+		}
+	}
+
+	default void paintThing(Graphics2D graphics, Thing thing) {
+		if (thing instanceof Bullet) {
+			paintBullet(graphics, (Bullet) thing);
+		} else
+			throw new IllegalArgumentException("Cannot draw " + thing);
+	}
+
+	default void paintBullet(Graphics2D graphics, Bullet bullet) {
+		int x = bullet.getX();
+		int y = bullet.getY();
+		int third = WIDTH_IN_PIXELS / 3;
+		graphics.translate(x * WIDTH_IN_PIXELS, y * HEIGHT_IN_PIXELS);
+		graphics.setColor(Color.RED);
+		graphics.fillOval(third, third, third, third);
+		graphics.translate(-x * WIDTH_IN_PIXELS, -y * HEIGHT_IN_PIXELS);
 	}
 
 	/**
@@ -57,7 +80,7 @@ public interface MapRenderer {
 	}
 
 	default void paintRobot(Graphics2D graphics, Robot robot, RobotInfo info) {
-		if (info.getRenderer() != null) {
+		if (info != null && info.getRenderer() != null) {
 			int x = info.getX();
 			int y = info.getY();
 			graphics.translate(x * WIDTH_IN_PIXELS, y * HEIGHT_IN_PIXELS);

@@ -1,3 +1,3 @@
-#  [Robo Rumble]
+#  Robo Rumble
 
 Coming soon..

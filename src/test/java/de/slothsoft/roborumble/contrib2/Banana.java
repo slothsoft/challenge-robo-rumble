@@ -5,7 +5,7 @@ import de.slothsoft.roborumble.contrib.AbstractRobot;
 public class Banana extends AbstractRobot {
 
 	@Override
-	public void position(Context context) {
+	public void execute(Context context) {
 		// nothing to do
 	}
 

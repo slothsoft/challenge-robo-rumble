@@ -1,16 +1,22 @@
 package de.slothsoft.roborumble;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 public class Map {
 
-	private final boolean[][] tiles;
-	private final int width;
-	private final int height;
+	final boolean[][] tiles;
+	final int width;
+	final int height;
 
-	private List<Robot> robots = new ArrayList<>();
+	private Supplier<Point> robotStartPointSupplier = () -> new Point();
+
+	List<Thing> things = new ArrayList<>();
+	List<Robot> robots = new ArrayList<>();
 	private List<RobotInfo> robotInfos = new ArrayList<>();
 
 	public Map(int width, int height) {
@@ -43,17 +49,49 @@ public class Map {
 		return this.robotInfos.get(indexOf(robot));
 	}
 
+	public RobotInfo findInfo(Robot robot) {
+		int index = indexOf(robot);
+		return index == -1 ? null : this.robotInfos.get(index);
+	}
+
 	private int indexOf(Robot searchedRobot) {
 		int index = 0;
 		for (Robot robot : this.robots) {
 			if (searchedRobot == robot) return index;
 			index++;
 		}
-		throw new IllegalArgumentException("Could not find robot: " + searchedRobot);
+		return -1;
+	}
+
+	public List<Thing> getThings() {
+		return Collections.unmodifiableList(this.things);
 	}
 
 	public void addRobot(Robot robot) {
+		Point position = this.robotStartPointSupplier.get();
 		this.robots.add(robot);
-		this.robotInfos.add(RobotInfo.from(robot));
+		this.robotInfos.add(RobotInfo.from(robot).x(position.x).y(position.y));
 	}
+
+	public void removeRobot(Robot robot) {
+		int index = indexOf(robot);
+		if (index >= 0) {
+			this.robots.remove(index);
+			this.robotInfos.remove(index);
+		}
+	}
+
+	public Supplier<Point> getRobotStartPointSupplier() {
+		return this.robotStartPointSupplier;
+	}
+
+	public Map robotStartPointSupplier(Supplier<Point> newRobotStartPointSupplier) {
+		setRobotStartPointSupplier(newRobotStartPointSupplier);
+		return this;
+	}
+
+	public void setRobotStartPointSupplier(Supplier<Point> robotStartPointSupplier) {
+		this.robotStartPointSupplier = Objects.requireNonNull(robotStartPointSupplier);
+	}
+
 }

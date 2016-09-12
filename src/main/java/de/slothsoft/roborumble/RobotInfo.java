@@ -12,6 +12,7 @@ public class RobotInfo {
 
 	private int x;
 	private int y;
+	int healthPoints = 1;
 	private RobotRenderer renderer; // TODO: remove renderer
 	private Direction direction = Direction.DOWN;
 
@@ -65,6 +66,19 @@ public class RobotInfo {
 
 	void setDirection(Direction direction) {
 		this.direction = Objects.requireNonNull(direction);
+	}
+
+	public int getHealthPoints() {
+		return this.healthPoints;
+	}
+
+	RobotInfo healthPoints(int newHealthPoints) {
+		setHealthPoints(newHealthPoints);
+		return this;
+	}
+
+	void setHealthPoints(int healthPoints) {
+		this.healthPoints = healthPoints;
 	}
 
 }

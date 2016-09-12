@@ -1,5 +1,6 @@
 package de.slothsoft.roborumble;
 
+import java.awt.Point;
 import java.util.Random;
 
 import de.slothsoft.roborumble.contrib.ExampleRobot;
@@ -17,8 +18,21 @@ public class MapGenerator {
 			tiles[this.rnd.nextInt(this.width)][this.rnd.nextInt(this.height)] = true;
 		}
 		Map map = new Map(tiles);
-		map.addRobot(new ExampleRobot());
+		map.setRobotStartPointSupplier(() -> generateStartPoint(tiles));
+
+		for (int i = 0; i < 7; i++) {
+			map.addRobot(new ExampleRobot());
+		}
 		return map;
+	}
+
+	private Point generateStartPoint(boolean[][] tiles) {
+		Point point = new Point();
+		do {
+			point.x = this.rnd.nextInt(this.width);
+			point.y = this.rnd.nextInt(this.height);
+		} while (tiles[point.x][point.y]);
+		return point;
 	}
 
 	public int getHeight() {

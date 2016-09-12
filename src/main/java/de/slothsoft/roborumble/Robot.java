@@ -12,9 +12,15 @@ public interface Robot {
 		return RobotRenderer.createDefaultRenderer();
 	}
 
-	void position(Context context);
+	void execute(Context context);
 
 	interface Context {
+
+		boolean requestMove(Direction direction);
+
+		void rotate(Direction direction);
+
+		boolean requestShot();
 
 	}
 }

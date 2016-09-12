@@ -2,20 +2,24 @@ package de.slothsoft.roborumble.contrib;
 
 import java.util.Random;
 
-public class ExampleRobot extends AbstractRobot  {
+import de.slothsoft.roborumble.Direction;
+
+public class ExampleRobot extends AbstractRobot {
 
 	private static final Random RANDOM = new Random(7L);
+	private static final String[] NAMES = { "Albert", "Bert", "Charles", "Daniel", "Emil", "Francis", "Gert", "Hans",
+			"Ike", "James", "Klaus" };
+	private static final Direction[] DIRECTIONS = Direction.values();
 
 	@Override
 	public String getDisplayName() {
-		return "Example";
+		return NAMES[RANDOM.nextInt(NAMES.length)] + " (Example)";
 	}
 
-
 	@Override
-	public void position(Context context) {
-		// TODO Auto-generated method stub
-		
+	public void execute(Context context) {
+		context.requestMove(DIRECTIONS[RANDOM.nextInt(DIRECTIONS.length)]);
+		context.requestShot();
 	}
 
 }

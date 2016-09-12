@@ -5,7 +5,7 @@ import de.slothsoft.roborumble.Robot;
 public class Pear implements Robot {
 
 	@Override
-	public void position(Context context) {
+	public void execute(Context context) {
 		// nothing to do
 	}
 
