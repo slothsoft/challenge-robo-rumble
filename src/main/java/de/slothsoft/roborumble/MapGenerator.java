@@ -3,8 +3,6 @@ package de.slothsoft.roborumble;
 import java.awt.Point;
 import java.util.Random;
 
-import de.slothsoft.roborumble.contrib.ExampleRobot;
-
 public class MapGenerator {
 
 	private Random rnd = new Random();
@@ -19,10 +17,6 @@ public class MapGenerator {
 		}
 		Map map = new Map(tiles);
 		map.setRobotStartPointSupplier(() -> generateStartPoint(tiles));
-
-		for (int i = 0; i < 7; i++) {
-			map.addRobot(new ExampleRobot());
-		}
 		return map;
 	}
 

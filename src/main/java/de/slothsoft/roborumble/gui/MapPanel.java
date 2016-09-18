@@ -21,11 +21,6 @@ public class MapPanel extends JComponent {
 	private double ratio;
 
 	public MapPanel() {
-		this(null);
-	}
-
-	public MapPanel(Map map) {
-		setMap(map);
 		setDoubleBuffered(true);
 	}
 

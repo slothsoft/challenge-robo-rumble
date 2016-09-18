@@ -17,5 +17,35 @@ public interface RobotRenderer {
 		}
 	}
 
-	void paint(Graphics graphics, Direction direction);
+	void paint(Graphics graphics, Context context);
+
+	public class Context {
+
+		private Direction direction;
+		private int width;
+		private int height;
+
+		public Context(Direction direction) {
+			this(direction, Tile.WIDTH_IN_PIXELS, Tile.HEIGHT_IN_PIXELS);
+		}
+
+		public Context(Direction direction, int width, int height) {
+			this.direction = direction;
+			this.width = width;
+			this.height = height;
+		}
+
+		public Direction getDirection() {
+			return direction;
+		}
+
+		public int getWidth() {
+			return width;
+		}
+
+		public int getHeight() {
+			return height;
+		}
+
+	}
 }

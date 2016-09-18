@@ -31,7 +31,7 @@ public class Bullet implements Thing {
 		if (collidedRobot != this.robot && this.map.robots.contains(collidedRobot)) {
 			RobotInfo info = this.map.findInfo(collidedRobot);
 			if (info != null) {
-				info.healthPoints--;
+				info.setHealthPoints(info.getHealthPoints() - 1);
 				if (info.healthPoints <= 0) {
 					this.map.removeRobot(collidedRobot);
 					this.map.things.remove(this);

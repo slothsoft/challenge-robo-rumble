@@ -3,8 +3,6 @@ package de.slothsoft.roborumble.gui;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import de.slothsoft.roborumble.Direction;
-
 public class SpriteRobotRenderer implements RobotRenderer {
 
 	private static final long FRAME_TIME = 1000 / 24; // 24 frames per second
@@ -26,17 +24,17 @@ public class SpriteRobotRenderer implements RobotRenderer {
 	}
 
 	@Override
-	public void paint(Graphics graphics, Direction direction) {
+	public void paint(Graphics graphics, Context context) {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - this.lastTime >= FRAME_TIME) {
 			this.currentFrame = (int) ((this.currentFrame + (currentTime - this.lastTime) / FRAME_TIME) % this.frames);
 			this.lastTime = currentTime;
 		}
 		int x = this.currentFrame * this.frameWidth;
-		int y = direction.ordinal() * this.frameHeight;
+		int y = context.getDirection().ordinal() * this.frameHeight;
 
-		graphics.drawImage(this.spriteImage, 0, 0, Tile.WIDTH_IN_PIXELS, Tile.HEIGHT_IN_PIXELS, x, y,
-				x + this.frameWidth, y + this.frameHeight, null);
+		graphics.drawImage(this.spriteImage, 0, 0, context.getWidth(), context.getHeight(), x, y, x + this.frameWidth,
+				y + this.frameHeight, null);
 	}
 
 }

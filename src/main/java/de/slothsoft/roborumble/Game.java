@@ -9,11 +9,15 @@ public class Game {
 
 	private final Thread thread = new Thread(this::run);
 
-	private final Map map = new MapGenerator().generate();
+	private final Map map;
 	private boolean stop = true;
 	private long sleepTime = 100L;
-	private Consumer<Robot> onFinish = winner -> System.out.println(winner == null
-			? "Game finished. There were no survivors." : "Game finished. " + winner.getDisplayName() + " won.");
+	private Consumer<Robot> onFinish = winner -> System.out
+			.println(winner == null ? "Game finished. There were no survivors." : "Game finished. " + winner + " won.");
+
+	public Game(Map map) {
+		this.map = map;
+	}
 
 	/**
 	 * Starts the current game

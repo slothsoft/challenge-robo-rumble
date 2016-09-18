@@ -84,7 +84,7 @@ public interface MapRenderer {
 			int x = info.getX();
 			int y = info.getY();
 			graphics.translate(x * WIDTH_IN_PIXELS, y * HEIGHT_IN_PIXELS);
-			info.getRenderer().paint(graphics, info.getDirection());
+			info.getRenderer().paint(graphics, new RobotRenderer.Context(info.getDirection()));
 			graphics.translate(-x * WIDTH_IN_PIXELS, -y * HEIGHT_IN_PIXELS);
 		} else {
 			System.err.println("No renderer found for " + robot + "!");

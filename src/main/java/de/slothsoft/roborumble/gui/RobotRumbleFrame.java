@@ -2,19 +2,22 @@ package de.slothsoft.roborumble.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import de.slothsoft.roborumble.Game;
+import de.slothsoft.roborumble.Robot;
 
 public class RobotRumbleFrame extends JFrame {
 
 	private static final long serialVersionUID = -2165255329208901685L;
 
-	private final Game game = new Game();
-	private final SettingsPanel settingsPanel = new SettingsPanel(this.game);
-	private final MapPanel gamePanel = new MapPanel(this.game.getMap());
+	private final SettingsPanel settingsPanel = new SettingsPanel();
+	private final MapPanel mapPanel = new MapPanel();
+	private final HealthPointPanel healthPointPanel = new HealthPointPanel();
+
+	private Game game;
 
 	public RobotRumbleFrame() {
 		setTitle("Robot Rumble");
@@ -22,26 +25,36 @@ public class RobotRumbleFrame extends JFrame {
 
 	private void createMainPanel() {
 		setLayout(new BorderLayout());
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.add(this.mapPanel, BorderLayout.CENTER);
+		panel.add(this.healthPointPanel, BorderLayout.SOUTH);
+
+		add(panel, BorderLayout.CENTER);
 		add(this.settingsPanel, BorderLayout.WEST);
-		add(this.gamePanel, BorderLayout.CENTER);
 
-		pack();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		centerWindow();
-	}
-
-	private void centerWindow() {
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		Dimension screenSize = tk.getScreenSize();
-		Dimension windowSize = getSize();
-		setLocation((screenSize.width - windowSize.width) / 2, (screenSize.height - windowSize.height) / 2);
+		setPreferredSize(new Dimension(1000, 600));
+		setSize(getPreferredSize());
+		setLocationRelativeTo(null);
 	}
 
 	public void start() {
 		createMainPanel();
 		setVisible(true);
-		this.gamePanel.repaint();
+		this.game = this.settingsPanel.createGame();
+		this.mapPanel.setMap(this.game.getMap());
+		this.healthPointPanel.setMap(this.game.getMap());
+		this.game.onFinish(this::gameFinished);
 		this.game.start();
+		doLayout();
+	}
+
+	private void gameFinished(Robot winner) {
+		System.out.println(
+				winner == null ? "Game finished. There were no survivors." : "Game finished. " + winner + " won.");
+		start();
 	}
 
 	public boolean isShowSettings() {

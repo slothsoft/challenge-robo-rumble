@@ -4,7 +4,9 @@ import java.util.Objects;
 
 import de.slothsoft.roborumble.gui.RobotRenderer;
 
-public class RobotInfo {
+public class RobotInfo extends Bean {
+
+	public static final String PROPERTY_HEALTH_POINTS = "healthPoints";
 
 	public static RobotInfo from(Robot robot) {
 		return new RobotInfo().renderer(robot.createRenderer());
@@ -78,7 +80,9 @@ public class RobotInfo {
 	}
 
 	void setHealthPoints(int healthPoints) {
+		int oldHealthPoints = this.healthPoints;
 		this.healthPoints = healthPoints;
+		this.propertyChangeSupport.firePropertyChange(PROPERTY_HEALTH_POINTS, oldHealthPoints, healthPoints);
 	}
 
 }

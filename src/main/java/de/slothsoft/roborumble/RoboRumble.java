@@ -19,6 +19,7 @@ public class RoboRumble {
 	private static void createAndShowGui() {
 		RobotRumbleFrame robotRumble = new RobotRumbleFrame();
 		robotRumble.start();
+		robotRumble.pack();
 	}
 
 }
