@@ -3,6 +3,7 @@ package de.slothsoft.roborumble.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -14,6 +15,7 @@ public class RobotRumbleFrame extends JFrame {
 	private static final long serialVersionUID = -2165255329208901685L;
 
 	private final SettingsPanel settingsPanel = new SettingsPanel();
+	private final HighScorePanel highScorePanel = new HighScorePanel();
 	private final MapPanel mapPanel = new MapPanel();
 	private final HealthPointPanel healthPointPanel = new HealthPointPanel();
 
@@ -33,11 +35,21 @@ public class RobotRumbleFrame extends JFrame {
 
 		add(panel, BorderLayout.CENTER);
 		add(this.settingsPanel, BorderLayout.WEST);
+		add(this.highScorePanel, BorderLayout.EAST);
+
+		JButton restartButton = new JButton("Restart");
+		restartButton.addActionListener(e -> restart());
+		this.settingsPanel.add(restartButton, GridBagData.forControl(1, 10));
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setPreferredSize(new Dimension(1000, 600));
+		setPreferredSize(new Dimension(1200, 600));
 		setSize(getPreferredSize());
 		setLocationRelativeTo(null);
+	}
+
+	public void restart() {
+		stop();
+		start();
 	}
 
 	public void start() {
@@ -52,13 +64,22 @@ public class RobotRumbleFrame extends JFrame {
 	}
 
 	private void gameFinished(Robot winner) {
-		System.out.println(
-				winner == null ? "Game finished. There were no survivors." : "Game finished. " + winner + " won.");
+		if (winner == null) {
+			System.out.println("Game finished. There were no survivors.");
+		} else {
+			System.out.println("Game finished. " + winner + " won.");
+			this.highScorePanel.propagateWinner(winner);
+		}
 		start();
 	}
 
+	public void stop() {
+		this.game.stopGame();
+		this.game = null;
+	}
+
 	public boolean isShowSettings() {
-		return this.settingsPanel.isShowSettings();
+		return this.settingsPanel.isVisible();
 	}
 
 	public RobotRumbleFrame showSettings(boolean showSettings) {
@@ -67,6 +88,6 @@ public class RobotRumbleFrame extends JFrame {
 	}
 
 	public void setShowSettings(boolean showSettings) {
-		this.settingsPanel.setShowSettings(showSettings);
+		this.settingsPanel.setVisible(showSettings);
 	}
 }

@@ -20,7 +20,7 @@ public class RobotModel extends AbstractTableModel {
 	private List<Row> rows = new ArrayList<>();
 
 	public RobotModel() {
-		for (Robot robot : Robots.getStonePositioners()) {
+		for (Robot robot : Robots.getRobots()) {
 			this.rows.add(new Row(robot.getDisplayName(), robot.getClass()));
 		}
 	}

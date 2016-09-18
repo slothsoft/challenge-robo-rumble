@@ -2,7 +2,6 @@ package de.slothsoft.roborumble.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 
@@ -19,32 +18,34 @@ import de.slothsoft.roborumble.Game;
 import de.slothsoft.roborumble.Map;
 import de.slothsoft.roborumble.MapGenerator;
 import de.slothsoft.roborumble.Robot;
+import de.slothsoft.roborumble.Robots;
 import de.slothsoft.roborumble.contrib.ExampleRobot;
 
 public class SettingsPanel extends JPanel {
 
 	private static final long serialVersionUID = -2165255329208901685L;
 
-	private final Component settingsPanel;
 	private final RobotModel robotModel = new RobotModel();
 
 	private JSpinner sleepTime;
+	private JSpinner robotCount;
+	private JSpinner mapWidth;
+	private JSpinner mapHeight;
+	private JSpinner tileCount;
 
 	private Game lastGame;
 
 	public SettingsPanel() {
 		setLayout(new BorderLayout());
-		this.settingsPanel = createSettings();
-		add(this.settingsPanel, BorderLayout.CENTER);
+		createControls();
 	}
 
-	private Component createSettings() {
+	private void createControls() {
 		TitledBorder titleBorder = BorderFactory.createTitledBorder("Settings");
 		titleBorder.setTitleColor(Color.DARK_GRAY);
 
-		JPanel parent = new JPanel();
-		parent.setBorder(titleBorder);
-		parent.setLayout(new GridBagLayout());
+		setBorder(titleBorder);
+		setLayout(new GridBagLayout());
 
 		int y = 0;
 		JTable table = new JTable();
@@ -57,23 +58,58 @@ public class SettingsPanel extends JPanel {
 
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(250, 100));
-		parent.add(scrollPane, GridBagData.forPanel(0, y++).gridwidth(2));
+		add(scrollPane, GridBagData.forPanel(0, y++).gridwidth(2));
+
+		this.robotCount = new JSpinner();
+		this.robotCount.setModel(new SpinnerNumberModel(Math.max(Robots.getRobots().size(), 2), 2, 100, 1));
+
+		add(new JLabel("Robot count:"), GridBagData.forLabel(0, y));
+		add(this.robotCount, GridBagData.forControl(1, y));
+		y++;
 
 		this.sleepTime = new JSpinner();
 		this.sleepTime.setModel(new SpinnerNumberModel(100, 0, 10_000, 100));
 		this.sleepTime.addChangeListener(e -> this.lastGame.setSleepTime((int) this.sleepTime.getValue()));
 
-		parent.add(new JLabel("Sleep time:"), GridBagData.forLabel(0, y));
-		parent.add(this.sleepTime, GridBagData.forControl(1, y));
+		add(new JLabel("Sleep time:"), GridBagData.forLabel(0, y));
+		add(this.sleepTime, GridBagData.forControl(1, y));
 		y++;
 
-		return parent;
+		this.mapWidth = new JSpinner();
+		this.mapWidth.setModel(new SpinnerNumberModel(20, 10, 100, 1));
+		this.mapWidth.addChangeListener(e -> this.lastGame.setSleepTime((int) this.sleepTime.getValue()));
+
+		add(new JLabel("Map width:"), GridBagData.forLabel(0, y));
+		add(this.mapWidth, GridBagData.forControl(1, y));
+		y++;
+
+		this.mapHeight = new JSpinner();
+		this.mapHeight.setModel(new SpinnerNumberModel(15, 7, 100, 1));
+		this.mapHeight.addChangeListener(e -> this.lastGame.setSleepTime((int) this.sleepTime.getValue()));
+
+		add(new JLabel("Map height:"), GridBagData.forLabel(0, y));
+		add(this.mapHeight, GridBagData.forControl(1, y));
+		y++;
+
+		this.tileCount = new JSpinner();
+		this.tileCount.setModel(new SpinnerNumberModel(10, 0, 10_000, 1));
+		this.tileCount.addChangeListener(e -> this.lastGame.setSleepTime((int) this.sleepTime.getValue()));
+
+		add(new JLabel("Tile count:"), GridBagData.forLabel(0, y));
+		add(this.tileCount, GridBagData.forControl(1, y));
+		y++;
 	}
 
 	public Game createGame() {
-		Map map = new MapGenerator().generate();
+		MapGenerator generator = new MapGenerator();
+		generator.setWidth((int) this.mapWidth.getValue());
+		generator.setHeight((int) this.mapHeight.getValue());
+		generator.setTileCount((int) this.tileCount.getValue());
 
-		while (map.getRobots().size() < 7) {
+		Map map = generator.generate();
+
+		int robotCount = (int) this.robotCount.getValue();
+		while (map.getRobots().size() < robotCount) {
 			int count = this.robotModel.getRowCount();
 			for (int i = 0; i < count; i++) {
 				Robot robot = this.robotModel.createRobot(i);
@@ -83,7 +119,7 @@ public class SettingsPanel extends JPanel {
 			}
 			if (map.getRobots().isEmpty()) {
 				// no robots selected
-				for (int i = 0; i < 7; i++) {
+				for (int i = 0; i < robotCount; i++) {
 					map.addRobot(new ExampleRobot());
 				}
 			}
@@ -92,18 +128,4 @@ public class SettingsPanel extends JPanel {
 		this.lastGame.setSleepTime((int) this.sleepTime.getValue());
 		return this.lastGame;
 	}
-
-	public boolean isShowSettings() {
-		return this.settingsPanel.isVisible();
-	}
-
-	public SettingsPanel showSettings(boolean showSettings) {
-		setShowSettings(showSettings);
-		return this;
-	}
-
-	public void setShowSettings(boolean showSettings) {
-		this.settingsPanel.setVisible(showSettings);
-	}
-
 }

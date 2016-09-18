@@ -18,7 +18,7 @@ public class Map {
 	private Supplier<Point> robotStartPointSupplier = () -> new Point();
 
 	List<Thing> things = new ArrayList<>();
-	HashMap<Robot, RobotInfo> robots = new HashMap<>();
+	java.util.Map<Robot, RobotInfo> robots = Collections.synchronizedMap(new HashMap<Robot, RobotInfo>());
 
 	public Map(int width, int height) {
 		this(new boolean[width][height]);

@@ -30,11 +30,11 @@ public final class Robots {
 	 * Returns all instances of {@link Robot}s in the
 	 * <code>contrib</code> package.
 	 * 
-	 * @return a list of stone positioners
+	 * @return a list of robots
 	 */
 
-	public static List<Robot> getStonePositioners() {
-		return getStonePositioners(ExampleRobot.class.getPackage());
+	public static List<Robot> getRobots() {
+		return getRobots(ExampleRobot.class.getPackage());
 	}
 
 	/**
@@ -42,10 +42,10 @@ public final class Robots {
 	 * 
 	 * @param searchedPackage
 	 *            - the package to be searched
-	 * @return a list of stone positioners
+	 * @return a list of robots
 	 */
 
-	static List<Robot> getStonePositioners(Package searchedPackage) {
+	static List<Robot> getRobots(Package searchedPackage) {
 		try {
 			List<Robot> stonePositioner = new ArrayList<>();
 			List<Class<?>> classes = getClasses(searchedPackage.getName());

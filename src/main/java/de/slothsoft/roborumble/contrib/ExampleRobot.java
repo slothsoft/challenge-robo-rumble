@@ -30,6 +30,11 @@ public class ExampleRobot extends AbstractRobot {
 	}
 
 	@Override
+	public String getAuthor() {
+		return "Slothsoft";
+	}
+
+	@Override
 	public RobotRenderer createRenderer() {
 		try (InputStream input = RobotRenderer.class.getResourceAsStream("robot_sprite.png");) {
 			return new SpriteRobotRenderer(changeEyeColor(ImageIO.read(input)), 2);

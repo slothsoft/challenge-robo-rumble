@@ -8,6 +8,10 @@ public interface Robot {
 		return getClass().getSimpleName();
 	}
 
+	default String getAuthor() {
+		return "unknown";
+	}
+
 	default RobotRenderer createRenderer() {
 		return RobotRenderer.createDefaultRenderer();
 	}

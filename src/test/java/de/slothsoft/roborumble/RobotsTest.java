@@ -37,19 +37,19 @@ public class RobotsTest {
 
 	@Test
 	public void testGetPositioners() throws Exception {
-		List<Robot> result = Robots.getStonePositioners(Apple.class.getPackage());
+		List<Robot> result = Robots.getRobots(Apple.class.getPackage());
 		Assert.assertEquals(Arrays.asList(new Banana(), new Orange(), new Pear()), result);
 	}
 
 	@Test
 	public void testGetPositionersIgnoreAbstractClasses() throws Exception {
-		List<Robot> result = Robots.getStonePositioners(One.class.getPackage());
+		List<Robot> result = Robots.getRobots(One.class.getPackage());
 		Assert.assertEquals(Arrays.asList(new Three(), new Two()), result);
 	}
 
 	@Test
 	public void testGetDefaultPositioners() throws Exception {
-		List<Robot> result = Robots.getStonePositioners();
+		List<Robot> result = Robots.getRobots();
 		Assert.assertTrue("The example is missing: " + result, result.contains(new ExampleRobot()));
 	}
 
