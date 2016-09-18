@@ -11,6 +11,7 @@ public class MapGenerator {
 	private int tileCount = 30;
 
 	public Map generate() {
+		// TODO: we need to prevent creation of maps with "caves" for robots to spawn in
 		boolean[][] tiles = new boolean[this.width][this.height];
 		for (int i = 0; i < this.tileCount; i++) {
 			tiles[this.rnd.nextInt(this.width)][this.rnd.nextInt(this.height)] = true;

@@ -15,7 +15,7 @@ public class RobotInfo extends Bean {
 	private int x;
 	private int y;
 	int healthPoints = 1;
-	private RobotRenderer renderer; // TODO: remove renderer
+	private RobotRenderer renderer;
 	private Direction direction = Direction.DOWN;
 
 	public int getX() {

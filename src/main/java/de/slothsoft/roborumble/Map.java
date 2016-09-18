@@ -2,7 +2,9 @@ package de.slothsoft.roborumble;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -16,8 +18,7 @@ public class Map {
 	private Supplier<Point> robotStartPointSupplier = () -> new Point();
 
 	List<Thing> things = new ArrayList<>();
-	List<Robot> robots = new ArrayList<>();
-	private List<RobotInfo> robotInfos = new ArrayList<>();
+	HashMap<Robot, RobotInfo> robots = new HashMap<>();
 
 	public Map(int width, int height) {
 		this(new boolean[width][height]);
@@ -41,26 +42,20 @@ public class Map {
 		return this.tiles.clone();
 	}
 
-	public List<Robot> getRobots() {
-		return Collections.unmodifiableList(this.robots);
+	public Collection<Robot> getRobots() {
+		return Collections.unmodifiableCollection(this.robots.keySet());
+	}
+
+	public java.util.Map<Robot, RobotInfo> getRobotInfos() {
+		return Collections.unmodifiableMap(this.robots);
 	}
 
 	public RobotInfo getInfo(Robot robot) {
-		return this.robotInfos.get(indexOf(robot));
+		return Objects.requireNonNull(this.robots.get(robot));
 	}
 
 	public RobotInfo findInfo(Robot robot) {
-		int index = indexOf(robot);
-		return index == -1 ? null : this.robotInfos.get(index);
-	}
-
-	private int indexOf(Robot searchedRobot) {
-		int index = 0;
-		for (Robot robot : this.robots) {
-			if (searchedRobot == robot) return index;
-			index++;
-		}
-		return -1;
+		return this.robots.get(robot);
 	}
 
 	public List<Thing> getThings() {
@@ -69,16 +64,11 @@ public class Map {
 
 	public void addRobot(Robot robot) {
 		Point position = this.robotStartPointSupplier.get();
-		this.robots.add(robot);
-		this.robotInfos.add(RobotInfo.from(robot).x(position.x).y(position.y));
+		this.robots.put(robot, RobotInfo.from(robot).x(position.x).y(position.y));
 	}
 
 	public void removeRobot(Robot robot) {
-		int index = indexOf(robot);
-		if (index >= 0) {
-			this.robots.remove(index);
-			this.robotInfos.remove(index);
-		}
+		this.robots.remove(robot);
 	}
 
 	public Supplier<Point> getRobotStartPointSupplier() {

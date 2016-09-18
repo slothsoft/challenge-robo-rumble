@@ -7,6 +7,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map.Entry;
 
 import de.slothsoft.roborumble.Bullet;
 import de.slothsoft.roborumble.Map;
@@ -35,11 +37,14 @@ public interface MapRenderer {
 
 		paintTileArray(graphics, map.getTiles());
 
-		for (Robot robot : new ArrayList<>(map.getRobots())) {
-			paintRobot(graphics, robot, map.findInfo(robot));
+		for (Entry<Robot, RobotInfo> robotEntry : new HashSet<>(map.getRobotInfos().entrySet())) {
+			paintRobot(graphics, robotEntry.getKey(), robotEntry.getValue());
 		}
 		for (Thing thing : new ArrayList<>(map.getThings())) {
-			paintThing(graphics, thing);
+			if (thing != null) {
+				// FIXME don't know why that happens, but it does
+				paintThing(graphics, thing);
+			}
 		}
 	}
 

@@ -2,6 +2,8 @@ package de.slothsoft.roborumble;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -36,7 +38,7 @@ public class Game {
 
 	private void sleep() {
 		try {
-			for (Robot robot : new ArrayList<>(this.map.robots)) {
+			for (Robot robot : new ArrayList<>(this.map.robots.keySet())) {
 				robot.execute(new StonePositionerContext(this.map, robot));
 			}
 			for (Thing thing : new ArrayList<>(this.map.things)) {
@@ -53,16 +55,14 @@ public class Game {
 	}
 
 	private void detectCollisions() {
-		for (Robot robot : new ArrayList<>(this.map.robots)) {
-			RobotInfo info = this.map.findInfo(robot);
-			if (info == null) {
-				continue;
-			}
+		for (Entry<Robot, RobotInfo> robotEntry : new HashMap<>(this.map.robots).entrySet()) {
+			Robot robot = robotEntry.getKey();
+			RobotInfo info = robotEntry.getValue();
 			for (Thing thing : new ArrayList<>(this.map.things)) {
 				if (thing.getX() == info.getX() && thing.getY() == info.getY()) {
 					thing.collide(robot);
 				}
-				if (!this.map.robots.contains(robot)) {
+				if (!this.map.robots.containsKey(robot)) {
 					// the robot was removed, so don't detect anything any more
 					break;
 				}
@@ -72,7 +72,7 @@ public class Game {
 
 	private void finishGame() {
 		stopGame();
-		this.onFinish.accept(this.map.robots.isEmpty() ? null : this.map.robots.get(0));
+		this.onFinish.accept(this.map.robots.isEmpty() ? null : this.map.robots.keySet().iterator().next());
 	}
 
 	/**
@@ -98,6 +98,19 @@ public class Game {
 
 	public void setOnFinish(Consumer<Robot> onFinish) {
 		this.onFinish = Objects.requireNonNull(onFinish);
+	}
+
+	public long getSleepTime() {
+		return this.sleepTime;
+	}
+
+	public Game sleepTime(long newSleepTime) {
+		setSleepTime(newSleepTime);
+		return this;
+	}
+
+	public void setSleepTime(long sleepTime) {
+		this.sleepTime = sleepTime;
 	}
 
 	class StonePositionerContext implements Robot.Context {

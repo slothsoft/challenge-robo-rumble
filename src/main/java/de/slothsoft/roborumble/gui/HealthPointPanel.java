@@ -3,6 +3,8 @@ package de.slothsoft.roborumble.gui;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -22,11 +24,8 @@ public class HealthPointPanel extends JComponent {
 	private void createControls() {
 		setLayout(new FlowLayout());
 
-		for (Robot robot : this.map.getRobots()) {
-			RobotInfo info = getMap().getInfo(robot);
-			if (info != null) {
-				add(new RobotControl(robot, info));
-			}
+		for (Entry<Robot, RobotInfo> robotEntry : new HashMap<>(this.map.getRobotInfos()).entrySet()) {
+			add(new RobotControl(robotEntry.getKey(), robotEntry.getValue()));
 		}
 	}
 

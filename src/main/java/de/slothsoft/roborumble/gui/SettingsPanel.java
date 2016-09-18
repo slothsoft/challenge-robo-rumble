@@ -10,7 +10,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 
 import de.slothsoft.roborumble.Game;
@@ -25,6 +27,10 @@ public class SettingsPanel extends JPanel {
 
 	private final Component settingsPanel;
 	private final RobotModel robotModel = new RobotModel();
+
+	private JSpinner sleepTime;
+
+	private Game lastGame;
 
 	public SettingsPanel() {
 		setLayout(new BorderLayout());
@@ -53,23 +59,15 @@ public class SettingsPanel extends JPanel {
 		scrollPane.setPreferredSize(new Dimension(250, 100));
 		parent.add(scrollPane, GridBagData.forPanel(0, y++).gridwidth(2));
 
-//		JComboBox<Robot> stonePositioner = new JComboBox<>();
-//		stonePositioner.setModel(new DefaultComboBoxModel<>(new Vector<>(Robots.getStonePositioners())));
-//		stonePositioner.setRenderer(new DisplayableListCellRenderer<Robot>(p -> p.getDisplayName()));
-//		stonePositioner.addActionListener(e -> this.game.setStonePositioner((Robot) stonePositioner.getSelectedItem()));
-//		stonePositioner.setSelectedItem(this.game.getStonePositioner());
-//
-//		parent.add(createLabel("Positioner"), createLabelConstraints(0, y));
-//		parent.add(stonePositioner, createControlConstraints(1, y));
+		this.sleepTime = new JSpinner();
+		this.sleepTime.setModel(new SpinnerNumberModel(100, 0, 10_000, 100));
+		this.sleepTime.addChangeListener(e -> this.lastGame.setSleepTime((int) this.sleepTime.getValue()));
+
+		parent.add(new JLabel("Sleep time:"), GridBagData.forLabel(0, y));
+		parent.add(this.sleepTime, GridBagData.forControl(1, y));
 		y++;
 
 		return parent;
-	}
-
-	private Component createLabel(String text) {
-		JLabel label = new JLabel(text + ':');
-		label.setForeground(Color.WHITE);
-		return label;
 	}
 
 	public Game createGame() {
@@ -90,8 +88,9 @@ public class SettingsPanel extends JPanel {
 				}
 			}
 		}
-
-		return new Game(map);
+		this.lastGame = new Game(map);
+		this.lastGame.setSleepTime((int) this.sleepTime.getValue());
+		return this.lastGame;
 	}
 
 	public boolean isShowSettings() {

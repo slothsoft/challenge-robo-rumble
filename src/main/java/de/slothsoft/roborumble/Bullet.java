@@ -28,8 +28,8 @@ public class Bullet implements Thing {
 
 	@Override
 	public void collide(Robot collidedRobot) {
-		if (collidedRobot != this.robot && this.map.robots.contains(collidedRobot)) {
-			RobotInfo info = this.map.findInfo(collidedRobot);
+		RobotInfo info = this.map.findInfo(collidedRobot);
+		if (collidedRobot != this.robot && info != null) {
 			if (info != null) {
 				info.setHealthPoints(info.getHealthPoints() - 1);
 				if (info.healthPoints <= 0) {
