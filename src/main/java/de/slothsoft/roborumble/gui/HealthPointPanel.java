@@ -63,7 +63,11 @@ public class HealthPointPanel extends JComponent {
 		}
 
 		void refresh() {
-			setText(String.valueOf(this.info.getHealthPoints()));
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.valueOf(this.info.getHealthPoints()));
+			sb.append(" / ");
+			sb.append(String.valueOf(this.info.getMaxHealthPoints()));
+			setText(sb.toString());
 		}
 
 	}

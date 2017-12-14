@@ -9,14 +9,23 @@ public class RobotInfo extends Bean {
 	public static final String PROPERTY_HEALTH_POINTS = "healthPoints";
 
 	public static RobotInfo from(Robot robot) {
-		return new RobotInfo().renderer(robot.createRenderer());
+		Stats stats = robot.createStats();
+		stats.validate();
+		int healthPoints = stats.getHealthPointBase() * Stats.HEALTH_POINTS_PER_BASE;
+		return new RobotInfo().renderer(robot.createRenderer()).healthPoints(healthPoints).maxHealthPoints(healthPoints)
+				.attack(stats.getAttack()).defense(stats.getDefense()).speed(stats.getSpeed());
 	}
 
 	private int x;
 	private int y;
-	int healthPoints = 1;
 	private RobotRenderer renderer;
 	private Direction direction = Direction.DOWN;
+
+	int healthPoints;
+	private int maxHealthPoints;
+	private int attack;
+	private int defense;
+	private int speed;
 
 	public int getX() {
 		return this.x;
@@ -83,6 +92,58 @@ public class RobotInfo extends Bean {
 		int oldHealthPoints = this.healthPoints;
 		this.healthPoints = healthPoints;
 		this.propertyChangeSupport.firePropertyChange(PROPERTY_HEALTH_POINTS, oldHealthPoints, healthPoints);
+	}
+
+	public int getAttack() {
+		return this.attack;
+	}
+
+	RobotInfo attack(int newAttack) {
+		setAttack(newAttack);
+		return this;
+	}
+
+	void setAttack(int attack) {
+		this.attack = attack;
+	}
+
+	public int getDefense() {
+		return this.defense;
+	}
+
+	RobotInfo defense(int newDefense) {
+		setDefense(newDefense);
+		return this;
+	}
+
+	void setDefense(int defense) {
+		this.defense = defense;
+	}
+
+	public int getMaxHealthPoints() {
+		return this.maxHealthPoints;
+	}
+
+	RobotInfo maxHealthPoints(int newMaxHealthPoints) {
+		setMaxHealthPoints(newMaxHealthPoints);
+		return this;
+	}
+
+	void setMaxHealthPoints(int maxHealthPoints) {
+		this.maxHealthPoints = maxHealthPoints;
+	}
+
+	public int getSpeed() {
+		return this.speed;
+	}
+
+	RobotInfo speed(int newSpeed) {
+		setSpeed(newSpeed);
+		return this;
+	}
+
+	void setSpeed(int speed) {
+		this.speed = speed;
 	}
 
 }

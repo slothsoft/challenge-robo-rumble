@@ -7,8 +7,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.slothsoft.roborumble.Robot;
-import de.slothsoft.roborumble.Robots;
 import de.slothsoft.roborumble.contrib.ExampleRobot;
 import de.slothsoft.roborumble.contrib1.A;
 import de.slothsoft.roborumble.contrib1.B;
@@ -38,7 +36,11 @@ public class RobotsTest {
 	@Test
 	public void testGetPositioners() throws Exception {
 		List<Robot> result = Robots.getRobots(Apple.class.getPackage());
-		Assert.assertEquals(Arrays.asList(new Banana(), new Orange(), new Pear()), result);
+		Assert.assertNotNull(result);
+		Assert.assertEquals(3, result.size());
+		Assert.assertTrue("Result has wrong type: " + result.get(0), result.get(0) instanceof Banana);
+		Assert.assertTrue("Result has wrong type: " + result.get(1), result.get(1) instanceof Orange);
+		Assert.assertTrue("Result has wrong type: " + result.get(2), result.get(2) instanceof Pear);
 	}
 
 	@Test
@@ -50,7 +52,9 @@ public class RobotsTest {
 	@Test
 	public void testGetDefaultPositioners() throws Exception {
 		List<Robot> result = Robots.getRobots();
-		Assert.assertTrue("The example is missing: " + result, result.contains(new ExampleRobot()));
+		Assert.assertNotNull(result);
+		Assert.assertTrue("Default robot is missing: " + result,
+				result.stream().filter(i -> i instanceof ExampleRobot).count() > 0);
 	}
 
 }

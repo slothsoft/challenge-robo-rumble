@@ -10,8 +10,14 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import de.slothsoft.roborumble.Direction;
+import de.slothsoft.roborumble.Stats;
 import de.slothsoft.roborumble.gui.RobotRenderer;
 import de.slothsoft.roborumble.gui.SpriteRobotRenderer;
+
+/**
+ * Example robot with a random name, random stats. Has always the same sprite (but with a
+ * random eye color). Runs around randomly.
+ */
 
 public class ExampleRobot extends AbstractRobot {
 
@@ -72,6 +78,16 @@ public class ExampleRobot extends AbstractRobot {
 		float g = rnd.nextFloat() / 2f + (rgb == 1 ? 0f : 0.5f);
 		float b = rnd.nextFloat() / 2f + (rgb == 2 ? 0f : 0.5f);
 		return new Color(r, g, b);
+	}
+
+	@Override
+	public Stats createStats() {
+		Random rnd = new Random(this.displayName.hashCode());
+		int[] stats = new int[4];
+		for (int i = 0; i < Stats.MAX_SUM; i++) {
+			stats[rnd.nextInt(stats.length)]++;
+		}
+		return new Stats().attack(stats[0]).defense(stats[1]).healthPointBase(stats[2]).speed(stats[3]);
 	}
 
 	@Override

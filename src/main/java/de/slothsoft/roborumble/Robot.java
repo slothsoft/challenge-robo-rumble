@@ -16,6 +16,10 @@ public interface Robot {
 		return RobotRenderer.createDefaultRenderer();
 	}
 
+	default Stats createStats() {
+		return new Stats();
+	}
+
 	void execute(Context context);
 
 	interface Context {
