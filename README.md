@@ -59,14 +59,14 @@ public class MyRobot extends AbstractRobot implements Robot {
 
 Optionally, you can override the following methods to customize your robot:
 
-- `**createStats()**` - returns the stats for your robot, in case you want to make it super fast or super strong or super defensive
-- `**createRenderer()**` - creates the renderer for your robot; the default implementation `SpriteRobotRenderer` splits an image into sprites
+- **`createStats()`** - returns the stats for your robot, in case you want to make it super fast or super strong or super defensive
+- **`createRenderer()`** - creates the renderer for your robot; the default implementation `SpriteRobotRenderer` splits an image into sprites
 
 There are some util classes to help you implement your robot, like
 
 - **`GameUtil`**
-  - `isOnMap(Map, Point)`
-  - `isOnWall(Map map, Point point)`
+  - `isOnMap(Map, Point)` - if the point is on the map
+  - `isOnWall(Map map, Point point)` - if the point is on the map but blocked by a wall
 
 
 ## License
