@@ -1,4 +1,4 @@
-#  Tribes Challenge
+#  Robo Rumble Challenge
 
 [![Build Status](https://travis-ci.org/slothsoft/challenge-robo-rumble.svg?branch=master)](https://travis-ci.org/slothsoft/challenge-robo-rumble)
 
@@ -26,7 +26,7 @@ You need at least **Java 8** or above to run the code.
 1. Clone this repository
 2. Import into the IDE of your choice
 3. Run `RoboRumble` to see the challenge in action
-4. Create your own implementation of `Robot` and put it into `de.slothsoft.roborumble.contrib`, then run `RoboRumble` again to see your tribe
+4. Create your own implementation of `Robot` and put it into `de.slothsoft.roborumble.contrib`, then run `RoboRumble` again to see your robot
 
 ```java   
 
