@@ -3,6 +3,13 @@ package de.slothsoft.roborumble;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+/**
+ * A base class for all beans in this project.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 class Bean {
 
 	final PropertyChangeSupport propertyChangeSupport;

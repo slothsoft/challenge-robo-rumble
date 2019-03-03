@@ -7,6 +7,13 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+/**
+ * The entire game.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public class Game {
 
 	private final Thread thread = new Thread(this::run);
@@ -38,10 +45,10 @@ public class Game {
 
 	private void sleep() {
 		try {
-			for (Robot robot : new ArrayList<>(this.map.robots.keySet())) {
+			for (final Robot robot : new ArrayList<>(this.map.robots.keySet())) {
 				robot.execute(new StonePositionerContext(this.map, robot));
 			}
-			for (Thing thing : new ArrayList<>(this.map.things)) {
+			for (final Thing thing : new ArrayList<>(this.map.things)) {
 				thing.execute();
 			}
 			detectCollisions();
@@ -49,16 +56,16 @@ public class Game {
 				finishGame();
 			}
 			Thread.sleep(this.sleepTime);
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	private void detectCollisions() {
-		for (Entry<Robot, RobotInfo> robotEntry : new HashMap<>(this.map.robots).entrySet()) {
-			Robot robot = robotEntry.getKey();
-			RobotInfo info = robotEntry.getValue();
-			for (Thing thing : new ArrayList<>(this.map.things)) {
+		for (final Entry<Robot, RobotInfo> robotEntry : new HashMap<>(this.map.robots).entrySet()) {
+			final Robot robot = robotEntry.getKey();
+			final RobotInfo info = robotEntry.getValue();
+			for (final Thing thing : new ArrayList<>(this.map.things)) {
 				if (thing.getX() == info.getX() && thing.getY() == info.getY()) {
 					thing.collide(robot);
 				}

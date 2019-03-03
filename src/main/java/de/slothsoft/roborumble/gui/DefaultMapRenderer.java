@@ -6,6 +6,13 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+/**
+ * The default {@link MapRenderer}.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public class DefaultMapRenderer implements MapRenderer {
 
 	private final Image floorImage;
@@ -19,7 +26,7 @@ public class DefaultMapRenderer implements MapRenderer {
 	private Image fetchImage(String imageName) {
 		try (InputStream input = getClass().getResourceAsStream(imageName);) {
 			return ImageIO.read(input);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new RuntimeException("Image " + imageName + " is missing!", e);
 		}
 	}

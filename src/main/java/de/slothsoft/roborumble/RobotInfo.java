@@ -4,14 +4,21 @@ import java.util.Objects;
 
 import de.slothsoft.roborumble.gui.RobotRenderer;
 
+/**
+ * Info the game holds for each robot.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public class RobotInfo extends Bean {
 
 	public static final String PROPERTY_HEALTH_POINTS = "healthPoints";
 
 	public static RobotInfo from(Robot robot) {
-		Stats stats = robot.createStats();
+		final Stats stats = robot.createStats();
 		stats.validate();
-		int healthPoints = stats.getHealthPointBase() * Stats.HEALTH_POINTS_PER_BASE;
+		final int healthPoints = stats.getHealthPointBase() * Stats.HEALTH_POINTS_PER_BASE;
 		return new RobotInfo().renderer(robot.createRenderer()).healthPoints(healthPoints).maxHealthPoints(healthPoints)
 				.attack(stats.getAttack()).defense(stats.getDefense()).speed(stats.getSpeed());
 	}
@@ -89,7 +96,7 @@ public class RobotInfo extends Bean {
 	}
 
 	void setHealthPoints(int healthPoints) {
-		int oldHealthPoints = this.healthPoints;
+		final int oldHealthPoints = this.healthPoints;
 		this.healthPoints = healthPoints;
 		this.propertyChangeSupport.firePropertyChange(PROPERTY_HEALTH_POINTS, oldHealthPoints, healthPoints);
 	}

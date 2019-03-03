@@ -16,6 +16,13 @@ import de.slothsoft.roborumble.Robot;
 import de.slothsoft.roborumble.RobotInfo;
 import de.slothsoft.roborumble.Thing;
 
+/**
+ * A class that is able to paint a {@link Map} on a {@link Graphics2D}.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public interface MapRenderer {
 
 	int BORDER_WIDTH = 2;
@@ -23,10 +30,8 @@ public interface MapRenderer {
 	/**
 	 * Paints a map
 	 *
-	 * @param graphics
-	 *            graphics
-	 * @param array
-	 *            block array
+	 * @param graphics graphics
+	 * @param array block array
 	 */
 
 	default void paintMap(Graphics2D graphics, Map map) {
@@ -37,10 +42,10 @@ public interface MapRenderer {
 
 		paintTileArray(graphics, map.getTiles());
 
-		for (Entry<Robot, RobotInfo> robotEntry : new HashSet<>(map.getRobotInfos().entrySet())) {
+		for (final Entry<Robot, RobotInfo> robotEntry : new HashSet<>(map.getRobotInfos().entrySet())) {
 			paintRobot(graphics, robotEntry.getKey(), robotEntry.getValue());
 		}
-		for (Thing thing : new ArrayList<>(map.getThings())) {
+		for (final Thing thing : new ArrayList<>(map.getThings())) {
 			if (thing != null) {
 				// FIXME don't know why that happens, but it does
 				paintThing(graphics, thing);
@@ -56,9 +61,9 @@ public interface MapRenderer {
 	}
 
 	default void paintBullet(Graphics2D graphics, Bullet bullet) {
-		int x = bullet.getX();
-		int y = bullet.getY();
-		int third = WIDTH_IN_PIXELS / 3;
+		final int x = bullet.getX();
+		final int y = bullet.getY();
+		final int third = WIDTH_IN_PIXELS / 3;
 		graphics.translate(x * WIDTH_IN_PIXELS, y * HEIGHT_IN_PIXELS);
 		graphics.setColor(Color.RED);
 		graphics.fillOval(third, third, third, third);
@@ -68,10 +73,8 @@ public interface MapRenderer {
 	/**
 	 * Paints an entire tile array
 	 *
-	 * @param graphics
-	 *            graphics
-	 * @param tiles
-	 *            tiles array
+	 * @param graphics graphics
+	 * @param tiles tiles array
 	 */
 
 	default void paintTileArray(Graphics2D graphics, boolean[][] tiles) {
@@ -86,8 +89,8 @@ public interface MapRenderer {
 
 	default void paintRobot(Graphics2D graphics, Robot robot, RobotInfo info) {
 		if (info != null && info.getRenderer() != null) {
-			int x = info.getX();
-			int y = info.getY();
+			final int x = info.getX();
+			final int y = info.getY();
 			graphics.translate(x * WIDTH_IN_PIXELS, y * HEIGHT_IN_PIXELS);
 			info.getRenderer().paint(graphics, new RobotRenderer.Context(info.getDirection()));
 			graphics.translate(-x * WIDTH_IN_PIXELS, -y * HEIGHT_IN_PIXELS);
@@ -99,10 +102,8 @@ public interface MapRenderer {
 	/**
 	 * Paints a single tile of the map
 	 *
-	 * @param graphics
-	 *            graphics
-	 * @param solid
-	 *            if its a wall
+	 * @param graphics graphics
+	 * @param solid if its a wall
 	 */
 
 	void paintTile(Graphics2D graphics, boolean solid);

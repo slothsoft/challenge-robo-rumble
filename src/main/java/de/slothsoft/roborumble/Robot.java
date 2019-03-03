@@ -2,6 +2,13 @@ package de.slothsoft.roborumble;
 
 import de.slothsoft.roborumble.gui.RobotRenderer;
 
+/**
+ * A little robot that moves around on the {@link Map} and tries to survive.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public interface Robot {
 
 	default String getDisplayName() {

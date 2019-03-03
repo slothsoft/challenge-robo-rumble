@@ -1,5 +1,12 @@
 package de.slothsoft.roborumble;
 
+/**
+ * The stats of a {@link Robot}.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public final class Stats implements Cloneable {
 
 	static final int BASE = 7;
@@ -12,7 +19,7 @@ public final class Stats implements Cloneable {
 	private int speed = BASE;
 
 	public void validate() {
-		int sum = this.healthPointBase + this.attack + this.defense + this.speed;
+		final int sum = this.healthPointBase + this.attack + this.defense + this.speed;
 		if (sum > MAX_SUM) throw new IllegalArgumentException("Your stats cannot be more than " + MAX_SUM + "!");
 		if (this.healthPointBase < 0) throw new IllegalArgumentException("Health point base cannot be less than 0!");
 		if (this.attack < 0) throw new IllegalArgumentException("Health point base cannot be less than 0!");
@@ -76,7 +83,7 @@ public final class Stats implements Cloneable {
 	public Stats clone() {
 		try {
 			return (Stats) super.clone();
-		} catch (CloneNotSupportedException e) {
+		} catch (final CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());
 		}
 	}

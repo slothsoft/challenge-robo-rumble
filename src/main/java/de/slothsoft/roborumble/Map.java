@@ -9,6 +9,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+/**
+ * A map with {@link Robot}s and other {@link Thing}s.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public class Map {
 
 	final boolean[][] tiles;
@@ -63,7 +70,7 @@ public class Map {
 	}
 
 	public void addRobot(Robot robot) {
-		Point position = this.robotStartPointSupplier.get();
+		final Point position = this.robotStartPointSupplier.get();
 		this.robots.put(robot, RobotInfo.from(robot).x(position.x).y(position.y));
 	}
 

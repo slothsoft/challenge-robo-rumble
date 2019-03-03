@@ -3,26 +3,33 @@ package de.slothsoft.roborumble;
 import java.awt.Point;
 import java.util.Random;
 
+/**
+ * A generator for {@link Map}s.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public class MapGenerator {
 
-	private Random rnd = new Random();
+	private final Random rnd = new Random();
 	private int width = 20;
 	private int height = 15;
 	private int tileCount = 30;
 
 	public Map generate() {
 		// TODO: we need to prevent creation of maps with "caves" for robots to spawn in
-		boolean[][] tiles = new boolean[this.width][this.height];
+		final boolean[][] tiles = new boolean[this.width][this.height];
 		for (int i = 0; i < this.tileCount; i++) {
 			tiles[this.rnd.nextInt(this.width)][this.rnd.nextInt(this.height)] = true;
 		}
-		Map map = new Map(tiles);
+		final Map map = new Map(tiles);
 		map.setRobotStartPointSupplier(() -> generateStartPoint(tiles));
 		return map;
 	}
 
 	private Point generateStartPoint(boolean[][] tiles) {
-		Point point = new Point();
+		final Point point = new Point();
 		do {
 			point.x = this.rnd.nextInt(this.width);
 			point.y = this.rnd.nextInt(this.height);

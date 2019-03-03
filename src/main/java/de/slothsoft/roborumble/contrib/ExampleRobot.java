@@ -17,18 +17,21 @@ import de.slothsoft.roborumble.gui.SpriteRobotRenderer;
 /**
  * Example robot with a random name, random stats. Has always the same sprite (but with a
  * random eye color). Runs around randomly.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
  */
 
 public class ExampleRobot extends AbstractRobot {
 
 	private static final Random RANDOM = new Random(7L);
-	private static final String[] NAMES = { "Albert", "Bert", "Charles", "Daniel", "Emil", "Francis", "Gert", "Hans",
+	private static final String[] NAMES = {"Albert", "Bert", "Charles", "Daniel", "Emil", "Francis", "Gert", "Hans",
 			"Ike", "James", "Klaus", "Lars", "Manfred", "Norbert", "Olaf", "Paul", "Quentin", "Ralf", "Sven", "Tony",
-			"Ulf", "Viktor", "Wolfgang", "Xerox", "Yens", "Zack" };
+			"Ulf", "Viktor", "Wolfgang", "Xerox", "Yens", "Zack"};
 	private static final Direction[] DIRECTIONS = Direction.values();
 	private static final Color EYE_COLOR = new Color(0, 255, 237);
 
-	private String displayName = NAMES[RANDOM.nextInt(NAMES.length)] + " (Example)";
+	private final String displayName = NAMES[RANDOM.nextInt(NAMES.length)] + " (Example)";
 
 	@Override
 	public String getDisplayName() {
@@ -44,18 +47,18 @@ public class ExampleRobot extends AbstractRobot {
 	public RobotRenderer createRenderer() {
 		try (InputStream input = RobotRenderer.class.getResourceAsStream("robot_sprite.png");) {
 			return new SpriteRobotRenderer(changeEyeColor(ImageIO.read(input)), 2);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new RuntimeException("Robot sprite is missing!", e);
 		}
 	}
 
 	private Image changeEyeColor(BufferedImage image) {
-		int width = image.getWidth();
-		int height = image.getHeight();
-		WritableRaster raster = image.getRaster();
-		Color randomColor = createRandomColor();
+		final int width = image.getWidth();
+		final int height = image.getHeight();
+		final WritableRaster raster = image.getRaster();
+		final Color randomColor = createRandomColor();
 
-		int[] color = new int[4];
+		final int[] color = new int[4];
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				raster.getPixel(x, y, color);
@@ -72,18 +75,18 @@ public class ExampleRobot extends AbstractRobot {
 	}
 
 	private Color createRandomColor() {
-		Random rnd = new Random(this.displayName.hashCode());
-		int rgb = rnd.nextInt(3);
-		float r = rnd.nextFloat() / 2f + (rgb == 0 ? 0f : 0.5f);
-		float g = rnd.nextFloat() / 2f + (rgb == 1 ? 0f : 0.5f);
-		float b = rnd.nextFloat() / 2f + (rgb == 2 ? 0f : 0.5f);
+		final Random rnd = new Random(this.displayName.hashCode());
+		final int rgb = rnd.nextInt(3);
+		final float r = rnd.nextFloat() / 2f + (rgb == 0 ? 0f : 0.5f);
+		final float g = rnd.nextFloat() / 2f + (rgb == 1 ? 0f : 0.5f);
+		final float b = rnd.nextFloat() / 2f + (rgb == 2 ? 0f : 0.5f);
 		return new Color(r, g, b);
 	}
 
 	@Override
 	public Stats createStats() {
-		Random rnd = new Random(this.displayName.hashCode());
-		int[] stats = new int[4];
+		final Random rnd = new Random(this.displayName.hashCode());
+		final int[] stats = new int[4];
 		for (int i = 0; i < Stats.MAX_SUM; i++) {
 			stats[rnd.nextInt(stats.length)]++;
 		}

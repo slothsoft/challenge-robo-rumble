@@ -1,7 +1,7 @@
 package de.slothsoft.roborumble.gui;
 
 import java.awt.FlowLayout;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -16,6 +16,13 @@ import de.slothsoft.roborumble.Map;
 import de.slothsoft.roborumble.Robot;
 import de.slothsoft.roborumble.RobotInfo;
 
+/**
+ * The panel that shows the HP of the {@link Robot}s.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public class HealthPointPanel extends JComponent {
 
 	private static final long serialVersionUID = -6297202903243792595L;
@@ -24,7 +31,7 @@ public class HealthPointPanel extends JComponent {
 	private void createControls() {
 		setLayout(new FlowLayout());
 
-		for (Entry<Robot, RobotInfo> robotEntry : new HashMap<>(this.map.getRobotInfos()).entrySet()) {
+		for (final Entry<Robot, RobotInfo> robotEntry : new HashMap<>(this.map.getRobotInfos()).entrySet()) {
 			add(new RobotControl(robotEntry.getKey(), robotEntry.getValue()));
 		}
 	}
@@ -55,15 +62,15 @@ public class HealthPointPanel extends JComponent {
 
 		private Icon createIcon(RobotRenderer renderer) {
 			final int size = 32;
-			BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
-			Graphics g = image.createGraphics();
+			final BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
+			final Graphics2D g = image.createGraphics();
 			renderer.paint(g, new RobotRenderer.Context(Direction.DOWN, size, size));
 			g.dispose();
 			return new ImageIcon(image);
 		}
 
 		void refresh() {
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			sb.append(String.valueOf(this.info.getHealthPoints()));
 			sb.append(" / ");
 			sb.append(String.valueOf(this.info.getMaxHealthPoints()));

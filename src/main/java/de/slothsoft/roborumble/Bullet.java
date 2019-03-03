@@ -2,6 +2,13 @@ package de.slothsoft.roborumble;
 
 import java.awt.Point;
 
+/**
+ * A bullet shot by a {@link Robot}.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public class Bullet implements Thing {
 
 	private final Map map;
@@ -13,7 +20,7 @@ public class Bullet implements Thing {
 		this.map = map;
 		this.robot = robot;
 
-		RobotInfo info = map.getInfo(robot);
+		final RobotInfo info = map.getInfo(robot);
 		this.point = new Point(info.getX(), info.getY());
 		this.direction = info.getDirection();
 	}
@@ -28,7 +35,7 @@ public class Bullet implements Thing {
 
 	@Override
 	public void collide(Robot collidedRobot) {
-		RobotInfo info = this.map.findInfo(collidedRobot);
+		final RobotInfo info = this.map.findInfo(collidedRobot);
 		if (collidedRobot != this.robot && info != null) {
 			if (info != null) {
 				info.setHealthPoints(info.getHealthPoints() - 1);

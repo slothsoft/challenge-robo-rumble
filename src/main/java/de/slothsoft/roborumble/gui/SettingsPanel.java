@@ -21,6 +21,13 @@ import de.slothsoft.roborumble.Robot;
 import de.slothsoft.roborumble.Robots;
 import de.slothsoft.roborumble.contrib.ExampleRobot;
 
+/**
+ * This panel shows settings of this {@link Game} and {@link Map}.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public class SettingsPanel extends JPanel {
 
 	private static final long serialVersionUID = -2165255329208901685L;
@@ -41,14 +48,14 @@ public class SettingsPanel extends JPanel {
 	}
 
 	private void createControls() {
-		TitledBorder titleBorder = BorderFactory.createTitledBorder("Settings");
+		final TitledBorder titleBorder = BorderFactory.createTitledBorder("Settings");
 		titleBorder.setTitleColor(Color.DARK_GRAY);
 
 		setBorder(titleBorder);
 		setLayout(new GridBagLayout());
 
 		int y = 0;
-		JTable table = new JTable();
+		final JTable table = new JTable();
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		table.setModel(this.robotModel);
 		table.getColumnModel().getColumn(RobotModel.COLUMN_SELECTED).setMaxWidth(40);
@@ -56,7 +63,7 @@ public class SettingsPanel extends JPanel {
 		table.getColumnModel().getColumn(RobotModel.COLUMN_DISPLAY_NAME).setMaxWidth(200);
 		table.getColumnModel().getColumn(RobotModel.COLUMN_CLASS).setPreferredWidth(200);
 
-		JScrollPane scrollPane = new JScrollPane(table);
+		final JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(250, 100));
 		add(scrollPane, GridBagData.forPanel(0, y++).gridwidth(2));
 
@@ -101,18 +108,18 @@ public class SettingsPanel extends JPanel {
 	}
 
 	public Game createGame() {
-		MapGenerator generator = new MapGenerator();
+		final MapGenerator generator = new MapGenerator();
 		generator.setWidth((int) this.mapWidth.getValue());
 		generator.setHeight((int) this.mapHeight.getValue());
 		generator.setTileCount((int) this.tileCount.getValue());
 
-		Map map = generator.generate();
+		final Map map = generator.generate();
 
-		int robotCount = (int) this.robotCount.getValue();
+		final int robotCount = (int) this.robotCount.getValue();
 		while (map.getRobots().size() < robotCount) {
-			int count = this.robotModel.getRowCount();
+			final int count = this.robotModel.getRowCount();
 			for (int i = 0; i < count; i++) {
-				Robot robot = this.robotModel.createRobot(i);
+				final Robot robot = this.robotModel.createRobot(i);
 				if (robot != null) {
 					map.addRobot(robot);
 				}

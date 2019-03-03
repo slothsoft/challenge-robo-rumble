@@ -2,6 +2,13 @@ package de.slothsoft.roborumble;
 
 import java.awt.Point;
 
+/**
+ * Util class for managing the {@link Robot}s on the map.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public final class GameUtil {
 
 	public static boolean isOnMap(Map map, Point point) {

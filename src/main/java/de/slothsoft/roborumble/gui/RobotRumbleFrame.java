@@ -10,6 +10,13 @@ import javax.swing.JPanel;
 import de.slothsoft.roborumble.Game;
 import de.slothsoft.roborumble.Robot;
 
+/**
+ * The main frame of this challenge.
+ *
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public class RobotRumbleFrame extends JFrame {
 
 	private static final long serialVersionUID = -2165255329208901685L;
@@ -28,7 +35,7 @@ public class RobotRumbleFrame extends JFrame {
 	private void createMainPanel() {
 		setLayout(new BorderLayout());
 
-		JPanel panel = new JPanel();
+		final JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.add(this.mapPanel, BorderLayout.CENTER);
 		panel.add(this.healthPointPanel, BorderLayout.SOUTH);
@@ -37,7 +44,7 @@ public class RobotRumbleFrame extends JFrame {
 		add(this.settingsPanel, BorderLayout.WEST);
 		add(this.highScorePanel, BorderLayout.EAST);
 
-		JButton restartButton = new JButton("Restart");
+		final JButton restartButton = new JButton("Restart");
 		restartButton.addActionListener(e -> restart());
 		this.settingsPanel.add(restartButton, GridBagData.forControl(1, 10));
 

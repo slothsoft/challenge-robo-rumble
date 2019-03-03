@@ -8,13 +8,20 @@ import javax.swing.JComponent;
 
 import de.slothsoft.roborumble.Map;
 
+/**
+ * A simple panel that shows a {@link Map}.
+ * 
+ * @author Stef Schulz
+ * @since 1.0.0
+ */
+
 public class MapPanel extends JComponent {
 
 	private static final long serialVersionUID = -4607180702570402004L;
 	private static final long REPAINT_IN_MS = 1000 / 24; // 24 frames per second
 
 	private Map map;
-	private MapRenderer renderer = new DefaultMapRenderer();
+	private final MapRenderer renderer = new DefaultMapRenderer();
 
 	private int width;
 	private int height;
